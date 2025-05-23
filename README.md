@@ -24,7 +24,7 @@ A Node.js-based backend service that allows users to upload files (text, image, 
 2. **Clone and Setup**
    ```bash
    # Clone the repository
-   git clone https://github.com/your-username/your-repo.git
+   git clone https://github.com/nikhilmohite123/File-uploader.git
    cd your-repo
    
    # Install dependencies
