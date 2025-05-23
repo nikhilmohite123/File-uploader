@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>File Upload Test with Auth</title>
+</head>
+<body>
+  <h2>Upload a file with Authorization header</h2>
+  <form id="uploadForm">
+    <label for="file">Choose file:</label>
+    <input type="file" name="file" id="file" required /><br /><br />
+
+    <label for="title">Title (optional):</label>
+    <input type="text" name="title" id="title" /><br /><br />
+
+    <label for="description">Description (optional):</label>
+    <textarea name="description" id="description"></textarea><br /><br />
+
+    <button type="submit">Upload</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const fileInput = document.getElementById('file');
+      const titleInput = document.getElementById('title');
+      const descInput = document.getElementById('description');
+
+      if (fileInput.files.length === 0) {
+        alert('Please select a file.');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+      if (titleInput.value) formData.append('title', titleInput.value);
+      if (descInput.value) formData.append('description', descInput.value);
+
+      try {
+        const response = await fetch('http://localhost:8000/api/upload', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Im5pa2hpbCIsImVtYWlsIjoibmlraGlsQGdtYWlsLmNvbSIsImlhdCI6MTc0NzkyOTE3MCwiZXhwIjoxNzc5NDY1MTcwfQ.ekN6C0T2G6-1IaZK-VTJIyTq7Wndd6qCdc1w4_Sg20g'
+          },
+          body: formData
+        });
+
+        const data = await response.json();
+        alert(`Response: ${JSON.stringify(data)}`);
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
